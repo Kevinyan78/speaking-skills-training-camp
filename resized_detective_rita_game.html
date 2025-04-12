@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detective Rita's Past Continuous Challenge</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background-color: #f0faff;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      color: #3366cc;
+    }
+    .story {
+      margin: 20px 0;
+      font-size: 1.2em;
+      line-height: 1.6em;
+    }
+    .blank {
+      display: inline-block;
+      width: 150px;
+      height: 30px;
+      border-bottom: 2px solid #333;
+      margin: 0 5px;
+      text-align: center;
+      font-weight: bold;
+      background-color: #e0f7fa;
+    }
+    .options {
+      margin: 20px 0;
+    }
+    .option {
+      display: inline-block;
+      background-color: #ffe082;
+      padding: 8px 12px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    .option:hover {
+      background-color: #ffd54f;
+    }
+    .completed {
+      color: green;
+      font-weight: bold;
+    }
+    .illustration {
+      text-align: center;
+    }
+    .illustration img {
+      width: 60%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎧 What Was Happening, Rita?</h1>
+  <audio controls style="display:block; margin: 10px auto;">
+    <source src="rita_narration.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <div class="illustration">
+    <img src="image.png" alt="Rita's Saturday Adventure Illustration">
+  </div>
+  <p>Help Rita finish telling her story by dragging the correct past continuous or past simple form into the blanks below.</p>
+
+  <div class="story">
+    Last Saturday I <span class="blank" data-answer="was sitting"></span> in the park with my friends when it <span class="blank" data-answer="started"></span> to get cold, so I <span class="blank" data-answer="decided"></span> to go home. While I <span class="blank" data-answer="was downloading"></span> a film, my cousin <span class="blank" data-answer="called"></span> me. He <span class="blank" data-answer="wanted"></span> to go to the cinema. At 4 pm, I <span class="blank" data-answer="was waiting"></span> for him outside the cinema and I <span class="blank" data-answer="was listening"></span> to music on my phone. At that moment, I <span class="blank" data-answer="saw"></span> my favourite singer, so I <span class="blank" data-answer="took"></span> a selfie with him!
+  </div>
+
+  <h3>✨ Drag the correct answers into the blanks:</h3>
+  <div class="options">
+    <div class="option" draggable="true">was sitting</div>
+    <div class="option" draggable="true">started</div>
+    <div class="option" draggable="true">decided</div>
+    <div class="option" draggable="true">was downloading</div>
+    <div class="option" draggable="true">called</div>
+    <div class="option" draggable="true">wanted</div>
+    <div class="option" draggable="true">was waiting</div>
+    <div class="option" draggable="true">was listening</div>
+    <div class="option" draggable="true">saw</div>
+    <div class="option" draggable="true">took</div>
+  </div>
+
+  <p id="success-message" style="display:none; font-weight:bold; color:green; font-size:1.3em;">🎉 Great job, Rita! You've completed the story! 🎉</p>
+
+  <script>
+    const blanks = document.querySelectorAll('.blank');
+    const optionsContainer = document.querySelector('.options');
+    const options = Array.from(document.querySelectorAll('.option'));
+    options.sort(() => Math.random() - 0.5);
+    options.forEach(option => optionsContainer.appendChild(option));
+
+    options.forEach(option => {
+      option.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', option.textContent);
+      });
+    });
+
+    blanks.forEach(blank => {
+      blank.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+      blank.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const droppedText = e.dataTransfer.getData('text/plain');
+        if (droppedText === blank.dataset.answer) {
+          blank.textContent = droppedText;
+          blank.classList.add('completed');
+          checkAllCompleted();
+        } else {
+          alert('Hmm... try again! 🎯');
+        }
+      });
+    });
+
+    function checkAllCompleted() {
+      const allCompleted = Array.from(blanks).every(blank => blank.classList.contains('completed'));
+      if (allCompleted) {
+        document.getElementById('success-message').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
